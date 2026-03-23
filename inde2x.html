@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jericho Carandang — Developer & Product Thinker</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #0e0f11;
+      --surface:  #161719;
+      --surface2: #1e2024;
+      --border:   rgba(255,255,255,0.07);
+      --accent:   #c9a96e;
+      --accent2:  #e8c99a;
+      --text:     #e8e6e1;
+      --muted:    #6b6a67;
+      --muted2:   #9a9896;
+      --white:    #f5f3ef;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+	.ppic {
+		width: 200px;
+		height: 200px;
+		object-fit: cover;
+		object-position: center top;
+		flex-shrink: 0;
+		border-radius: 50%;
+	}
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 60px;
+      height: 68px;
+      background: rgba(14,15,17,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; color: var(--white);
+    }
+    .nav-right { display: flex; align-items: center; gap: 40px; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 400;
+      color: var(--muted2); text-decoration: none;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      font-size: 0.75rem; font-weight: 500;
+      padding: 9px 22px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      transition: all 0.25s;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      max-width: 1200px; margin: 0 auto;
+      padding: 68px 60px 0;
+      position: relative;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding-right: 80px; padding-top: 60px; padding-bottom: 60px;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+    .eyebrow-line { width: 32px; height: 1px; background: var(--accent); }
+    .hero-eyebrow span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem; color: var(--accent);
+      letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 5.5vw, 4.8rem);
+      line-height: 1.08; color: var(--white);
+      margin-bottom: 16px;
+      opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem; color: var(--muted2);
+      letter-spacing: 0.08em; margin-bottom: 32px;
+      min-height: 1.5em;
+      opacity: 0; animation: fadeUp 0.7s ease 0.3s forwards;
+    }
+    .cursor-blink {
+      display: inline-block; width: 2px; height: 0.85em;
+      background: var(--accent); margin-left: 2px;
+      vertical-align: middle; animation: blink 1s step-end infinite;
+    }
+    .hero-desc {
+      font-size: 1rem; color: var(--muted2); line-height: 1.82;
+      max-width: 430px; margin-bottom: 44px;
+      opacity: 0; animation: fadeUp 0.7s ease 0.4s forwards;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 500; }
+    .hero-actions {
+      display: flex; gap: 14px; align-items: center;
+      opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
+    }
+    .btn-primary {
+      padding: 13px 32px; background: var(--accent); color: var(--bg);
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      text-decoration: none; transition: background 0.25s;
+    }
+    .btn-primary:hover { background: var(--accent2); }
+    .btn-outline {
+      padding: 13px 32px; border: 1px solid var(--border);
+      color: var(--muted2); font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.25s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── HERO RIGHT ── */
+    .hero-right {
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 68px;
+      opacity: 0; animation: fadeLeft 0.8s ease 0.65s forwards;
+    }
+    .profile-panel {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 40px; position: relative;
+    }
+    .profile-panel::before {
+      content: ''; position: absolute; top: 0; left: 40px; right: 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .profile-top {
+      display: flex; align-items: flex-start; gap: 18px;
+      margin-bottom: 34px; padding-bottom: 34px;
+      border-bottom: 1px solid var(--border);
+    }
+    .profile-initials {
+      width: 58px; height: 58px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), #7a5c2e);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem; color: var(--bg);
+    }
+    .profile-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.12rem; color: var(--white); margin-bottom: 6px;
+    }
+    .profile-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem; color: var(--accent); letter-spacing: 0.1em;
+    }
+    .status-dot {
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      background: #4ade80; margin-right: 6px;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+
+    .profile-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px 28px; margin-bottom: 30px;
+    }
+    .pi-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.13em;
+      text-transform: uppercase; margin-bottom: 4px;
+    }
+    .pi-val { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+
+    .open-roles {
+      padding: 16px 18px; background: var(--surface2);
+      border-left: 2px solid var(--accent);
+    }
+    .open-roles-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--accent); letter-spacing: 0.13em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .roles-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .role-chip {
+      font-size: 0.73rem; font-weight: 500;
+      padding: 4px 12px;
+      border: 1px solid rgba(201,169,110,0.3);
+      color: var(--accent2); letter-spacing: 0.03em;
+    }
+
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: 60px;
+      display: flex; align-items: center; gap: 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      opacity: 0; animation: fadeUp 0.6s ease 1.1s forwards;
+    }
+    .scroll-line {
+      width: 40px; height: 1px; background: var(--muted);
+      transform: scaleX(0); transform-origin: left;
+      animation: lineExpand 1.2s ease 1.3s forwards;
+    }
+    @keyframes lineExpand { to { transform: scaleX(1); } }
+
+    /* ── SECTIONS ── */
+    .section-wrap { max-width: 1200px; margin: 0 auto; padding: 120px 60px; }
+    .sec-eyebrow {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 14px;
+    }
+    .sec-num {
+      font-family: 'DM Mono', monospace; font-size: 0.66rem;
+      color: var(--accent); letter-spacing: 0.13em;
+    }
+    .sec-line { height: 1px; width: 40px; background: var(--border); }
+    .sec-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      color: var(--white); line-height: 1.15; margin-bottom: 60px;
+    }
+    .sec-title em { font-style: italic; color: var(--accent); }
+    hr.divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .about-text p { color: var(--muted2); font-size: 0.98rem; line-height: 1.85; margin-bottom: 18px; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text strong { color: var(--text); font-weight: 500; }
+
+    .what-cards { display: flex; flex-direction: column; gap: 2px; }
+    .what-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 26px 30px; display: flex; gap: 22px;
+      align-items: flex-start; transition: border-color 0.3s, background 0.3s;
+    }
+    .what-card:hover { border-color: rgba(201,169,110,0.3); background: var(--surface2); }
+    .wc-icon { font-size: 1.2rem; flex-shrink: 0; width: 36px; margin-top: 2px; }
+    .wc-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .wc-desc { font-size: 0.83rem; color: var(--muted2); line-height: 1.65; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--surface); }
+    .skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+    .skill-group {
+      background: var(--bg); padding: 34px 30px;
+      border: 1px solid var(--border); transition: border-color 0.3s;
+    }
+    .skill-group:hover { border-color: rgba(201,169,110,0.2); }
+    .sg-title {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+    }
+    .s-item { margin-bottom: 16px; }
+    .s-item:last-child { margin-bottom: 0; }
+    .s-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .s-name { font-size: 0.86rem; color: var(--text); }
+    .s-pct { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--accent); }
+    .s-track { height: 2px; background: var(--surface2); }
+    .s-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1.4s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ── PROJECTS ── */
+    .project-item {
+      display: grid; grid-template-columns: 72px 1fr 28px;
+      gap: 28px; align-items: start;
+      padding: 36px 0; border-bottom: 1px solid var(--border);
+      transition: all 0.25s;
+    }
+    .project-item:first-child { border-top: 1px solid var(--border); }
+    .project-item:hover .proj-title { color: var(--accent); }
+    .proj-num {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      color: var(--muted); padding-top: 5px; letter-spacing: 0.08em;
+    }
+    .proj-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem; color: var(--white);
+      margin-bottom: 10px; transition: color 0.25s;
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .proj-wip {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      color: var(--muted); border: 1px solid var(--border);
+      padding: 3px 8px; letter-spacing: 0.08em;
+      font-style: normal;
+    }
+    .proj-desc { font-size: 0.89rem; color: var(--muted2); line-height: 1.78; margin-bottom: 16px; max-width: 580px; }
+    .proj-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .proj-tag {
+      font-family: 'DM Mono', monospace; font-size: 0.63rem;
+      color: var(--muted2); padding: 4px 10px;
+      border: 1px solid var(--border); letter-spacing: 0.06em;
+    }
+    .proj-arrow {
+      font-size: 1.1rem; color: var(--muted); padding-top: 5px;
+      transition: color 0.25s, transform 0.25s;
+    }
+    .project-item:hover .proj-arrow { color: var(--accent); transform: translate(3px,-3px); }
+
+    /* ── BACKGROUND ── */
+    #background { background: var(--surface); }
+    .bg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+    .bg-sec-label {
+      font-family: 'DM Mono', monospace; font-size: 0.64rem;
+      color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .tl { display: flex; flex-direction: column; gap: 32px; }
+    .tl-item { display: grid; grid-template-columns: 110px 1fr; gap: 20px; }
+    .tl-year { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); padding-top: 4px; }
+    .tl-title { font-size: 0.93rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .tl-sub { font-size: 0.8rem; color: var(--accent); margin-bottom: 8px; }
+    .tl-desc { font-size: 0.84rem; color: var(--muted2); line-height: 1.72; }
+
+    /* ── CONTACT ── */
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contact-sub { font-size: 1rem; color: var(--muted2); line-height: 1.8; margin-bottom: 40px; }
+    .c-links { display: flex; flex-direction: column; gap: 14px; }
+    .c-link {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 22px; border: 1px solid var(--border);
+      text-decoration: none; transition: border-color 0.25s, background 0.25s;
+    }
+    .c-link:hover { border-color: rgba(201,169,110,0.4); background: var(--surface); }
+    .c-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; color: var(--muted2);
+    }
+    .c-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 2px;
+    }
+    .c-val { font-size: 0.9rem; color: var(--text); }
+    .c-arrow { margin-left: auto; color: var(--muted); font-size: 0.9rem; transition: color 0.25s, transform 0.25s; }
+    .c-link:hover .c-arrow { color: var(--accent); transform: translate(3px,-3px); }
+
+    .contact-form {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 40px; position: relative;
+    }
+    .contact-form::before {
+      content: ''; position: absolute; top: 0; left: 40px; right: 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .cf-title {
+      font-family: 'DM Mono', monospace; font-size: 0.64rem;
+      color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .f-field { margin-bottom: 18px; }
+    .f-label {
+      display: block; font-family: 'DM Mono', monospace;
+      font-size: 0.62rem; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .f-input {
+      width: 100%; padding: 12px 16px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+    }
+    .f-input:focus { border-color: rgba(201,169,110,0.45); }
+    .f-input::placeholder { color: var(--muted); }
+    textarea.f-input { resize: vertical; min-height: 108px; }
+    .f-submit {
+      width: 100%; padding: 14px; background: var(--accent);
+      color: var(--bg); border: none; font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer; transition: background 0.25s;
+    }
+    .f-submit:hover { background: var(--accent2); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 26px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .foot-name { font-family: 'DM Serif Display', serif; font-size: 0.92rem; color: var(--muted); }
+    .foot-copy { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.08em; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes fadeLeft { from{opacity:0;transform:translateX(20px);} to{opacity:1;transform:translateX(0);} }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+    .reveal { opacity:0; transform:translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    .d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;} .d4{transition-delay:.4s;}
+
+    @media(max-width:900px){
+      nav{padding:0 24px;} .nav-links{display:none;}
+      #hero{grid-template-columns:1fr; padding:68px 24px 0;}
+      .hero-left{padding-right:0; padding-top:40px;}
+      .hero-right{padding-top:40px; padding-bottom:60px;}
+      .section-wrap{padding:80px 24px;}
+      .about-grid,.bg-grid,.contact-wrap,.skills-grid{grid-template-columns:1fr; gap:32px;}
+      .project-item{grid-template-columns:60px 1fr;}
+      .proj-arrow{display:none;}
+      footer{padding:24px; flex-direction:column; gap:8px; text-align:center;}
+      .scroll-hint{display:none;}
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-name">Jericho Carandang</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#background">Background</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Hire Me</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-line"></span>
+        <span>Available for opportunities</span>
+      </div>
+      <h1 class="hero-name">Jericho<br><em>Carandang.</em></h1>
+      <div class="hero-role"><span id="typed"></span><span class="cursor-blink"></span></div>
+      <p class="hero-desc">ComScie graduate who <strong>builds software and thinks in products.</strong> I bridge technical execution and strategic vision — whether shipping code, defining features, or aligning teams around what actually matters.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="profile-panel">
+        <div class="profile-top">
+          <img src="src/img/profile.PNG" class="ppic"></img>
+          <div>
+            <div class="profile-name">Jericho Carandang</div>
+            <div class="profile-status" style="margin-top:7px;">
+              <span class="status-dot"></span>Open to Work
+            </div>
+          </div>
+        </div>
+        <div class="profile-grid">
+          <div><div class="pi-label">Degree</div><div class="pi-val">B.S. Computer Science</div></div>
+          <div><div class="pi-label">Batch Year</div><div class="pi-val">2019</div></div>
+          <div><div class="pi-label">Location</div><div class="pi-val">Philippines 🇵🇭</div></div>
+          <div><div class="pi-label">Focus</div><div class="pi-val">Dev + Product</div></div>
+        </div>
+        <div class="open-roles">
+          <div class="open-roles-label">Open to roles in</div>
+          <div class="roles-list">
+            <span class="role-chip">Software Engineer</span>
+            <span class="role-chip">Product Manager</span>
+            <span class="role-chip">Technical PM</span>
+            <span class="role-chip">Product Owner</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ABOUT -->
+  <section id="about" style="background:var(--bg);">
+    <div class="section-wrap">
+      <div class="sec-eyebrow reveal"><span class="sec-num">01</span><span class="sec-line"></span></div>
+      <h2 class="sec-title reveal d1">What I <em>bring</em><br>to the table</h2>
+      <div class="about-grid">
+        <div class="about-text reveal d2">
+          <p>I'm a software developer from the Philippines with a Computer Science degree and a genuine interest in how products <strong>think, behave, and grow.</strong> I don't just write code — I question why it needs to be written in the first place.</p>
+          <p>I’m starting out building mobile apps, Android tools, and trading systems. What I’m learning quickly is that the hardest decisions aren’t about syntax—they’re about scope, user value, and what to cut.</p>
+          <p>Years of self-directed work in financial markets sharpened my ability to <strong>reason under uncertainty, work with data, and make structured calls</strong> with incomplete information — a skill that carries directly into product and engineering roles.</p>
+          <p>I'm comfortable on both sides of the table: writing code <em>and</em> defining requirements, mapping user flows, and making sure technical work ties to real outcomes.</p>
+        </div>
+        <div class="what-cards reveal d3">
+          <div class="what-card">
+            <div class="wc-icon">⚙️</div>
+            <div><div class="wc-title">Technical Execution</div><div class="wc-desc">Mobile and web development from concept to deployed product. React Native, Kotlin, JavaScript, and beyond.</div></div>
+          </div>
+          <div class="what-card">
+            <div class="wc-icon">🧭</div>
+            <div><div class="wc-title">Product Thinking</div><div class="wc-desc">Defining what to build, why it matters, and how to prioritize — translating ideas into actionable requirements.</div></div>
+          </div>
+          <div class="what-card">
+            <div class="wc-icon">📊</div>
+            <div><div class="wc-title">Analytical Mindset</div><div class="wc-desc">Data-driven decision making shaped by years of independent financial market analysis and systems thinking.</div></div>
+          </div>
+          <div class="what-card">
+            <div class="wc-icon">🤝</div>
+            <div><div class="wc-title">Bridge Role</div><div class="wc-desc">Able to speak fluently with both engineers and stakeholders — reducing friction at every handoff.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-wrap">
+      <div class="sec-eyebrow reveal"><span class="sec-num">02</span><span class="sec-line"></span></div>
+      <h2 class="sec-title reveal d1">Skills &<br><em>Technologies</em></h2>
+      <div class="skills-grid">
+
+        <div class="skill-group reveal d1">
+          <div class="sg-title">Mobile Development</div>
+          <div class="s-item"><div class="s-row"><span class="s-name">React Native / Expo</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="90%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Android / Kotlin</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="78%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Android Studio</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="75%"></div></div></div>
+        </div>
+        <div class="skill-group reveal d3">
+          <div class="sg-title">Product & Strategy</div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Product Roadmapping</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="84%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Requirements & User Stories</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="80%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Data-Driven Decisions</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="87%"></div></div></div>
+        </div>
+
+        <div class="skill-group reveal d1">
+          <div class="sg-title">Tools & Languages</div>
+          <div class="s-item"><div class="s-row"><span class="s-name">HTML / CSS</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="88%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">SQL / SQLite</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="74%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Java / Python</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="72%"></div></div></div>
+        </div>
+
+        <div class="skill-group reveal d2">
+          <div class="sg-title">Trading</div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Pattern recognition</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="70%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Market Analysis (Forex)</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="82%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Systems & Logic Design</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="80%"></div></div></div>
+        </div>
+
+        <div class="skill-group reveal d3">
+          <div class="sg-title">Soft Skills</div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Problem Decomposition</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="92%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Independent Research</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="90%"></div></div></div>
+          <div class="s-item"><div class="s-row"><span class="s-name">Cross-functional Thinking</span><span class="s-pct"></span></div><div class="s-track"><div class="s-fill" data-w="85%"></div></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="background:var(--bg);">
+    <div class="section-wrap">
+      <div class="sec-eyebrow reveal"><span class="sec-num">03</span><span class="sec-line"></span></div>
+      <h2 class="sec-title reveal d1">Selected Unique<br><em>Projects</em></h2>
+
+      <div class="project-item reveal">
+        <div class="proj-num">001</div>
+        <div>
+          <div class="proj-title">Habit Notemap <span class="proj-wip">In Progress</span> </div>
+          <p class="proj-desc">A React Native productivity app combining a visual node-based roadmap canvas, rich notes, checklists, and a habit tracker with streak tracking. Designed and shipped end-to-end — from concept to installable APK via EAS Build.</p>
+          <div class="proj-tags"><span class="proj-tag">React Native</span><span class="proj-tag">Expo SDK 54</span><span class="proj-tag">SQLite</span><span class="proj-tag">Android</span><span class="proj-tag">EAS Build</span></div>
+        </div>
+        <div class="proj-arrow">↗</div>
+      </div>
+
+      <div class="project-item reveal d1">
+        <div class="proj-num">002</div>
+        <div>
+          <div class="proj-title">CutFree <span class="proj-wip">In Progress</span></div>
+          <p class="proj-desc">Native Android video editor built with Kotlin. Integrated Google's Media3 Transformer for video processing, replacing the retired FFmpegKit. Solved complex build pipeline challenges with AGP 8.7+ and Gradle 8.9+.</p>
+          <div class="proj-tags"><span class="proj-tag">Kotlin</span><span class="proj-tag">Android Studio</span><span class="proj-tag">Media3</span><span class="proj-tag">Jetpack</span></div>
+        </div>
+        <div class="proj-arrow">↗</div>
+      </div>
+
+      <div class="project-item reveal d2" style="grid-template-columns: 72px 1fr; display:grid;">
+		<div class="proj-num">003</div>
+	<div>
+    <div class="proj-title">
+      <a href="https://aether-gilt-one.vercel.app/" target="_blank" style="color:inherit; text-decoration:none;">AETHER — Hand Tracking Arcade</a>
+      <span class="proj-wip">Completed</span>
+    </div>
+    <p class="proj-desc">Real-time arcade game controlled entirely by bare hand gestures. Uses CameraX + MediaPipe to track palm position and detect open/close grabs through the front camera. Particle effects, combo scoring, and persistent leaderboard. No touch, no buttons — just your hand.</p>
+    <div class="proj-tags" style="margin-bottom:20px;">
+      <span class="proj-tag">HTML CSS</span>
+      <span class="proj-tag">JavaScript</span>
+      <span class="proj-tag">MediaPipe</span>
+    </div>
+    <video width="100%" style="border:1px solid rgba(255,255,255,0.07); border-radius:4px; max-height:3000px; max-width:1000px; object-fit:cover;" controls muted loop>
+      <source src="src/vid/aether.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- BACKGROUND -->
+  <section id="background">
+    <div class="section-wrap">
+      <div class="sec-eyebrow reveal"><span class="sec-num">04</span><span class="sec-line"></span></div>
+      <h2 class="sec-title reveal d1">Education &<br><em>Background</em></h2>
+      <div class="bg-grid">
+        <div class="reveal d2">
+          <div class="bg-sec-label">Education</div>
+          <div class="tl">
+            <div class="tl-item">
+              <div class="tl-year">2015 – 2019</div>
+              <div>
+                <div class="tl-title">Bachelor of Science in Computer Science</div>
+                <div class="tl-sub">Philippines</div>
+                <div class="tl-desc">Core studies in software engineering, data structures, algorithms, systems design, and object-oriented programming. Built a foundation that spans both technical depth and systems-level thinking.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal d3">
+          <div class="bg-sec-label">Self-Directed Experience</div>
+          <div class="tl">
+            <div class="tl-item">
+              <div class="tl-year">2022 – Present</div>
+              <div>
+                <div class="tl-title">Independent Development & Market Analysis</div>
+                <div class="tl-sub">Self-Directed</div>
+                <div class="tl-desc">Built personal software projects across mobile, web, and automation. Simultaneously conducted rigorous self-study in financial markets — developing systematic trading strategies and analytical frameworks. Sharpened independent research, pattern recognition, and structured decision-making under uncertainty.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">Ongoing</div>
+              <div>
+                <div class="tl-title">Product & Engineering Upskilling</div>
+                <div class="tl-sub">Continuous Learning</div>
+                <div class="tl-desc">Actively studying product management frameworks, cloud fundamentals, and cybersecurity. Targeting AWS Cloud Practitioner and CompTIA Security+ as next certifications.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:var(--bg);">
+    <div class="section-wrap">
+      <div class="contact-wrap">
+        <div>
+          <div class="sec-eyebrow reveal"><span class="sec-num">05</span><span class="sec-line"></span></div>
+          <h2 class="sec-title reveal d1">Let's work<br><em>together.</em></h2>
+          <p class="contact-sub reveal d2">Open to full-time roles as a Developer, Associate Software Engineer, Product Manager, Technical PM, or Product Owner. Let's talk.</p>
+          <div class="c-links reveal d3">
+            <a href="mailto:jerichom.carandang@gmail.com" class="c-link">
+              <div class="c-icon">✉</div>
+              <div><div class="c-label">Email</div><div class="c-val">jerichom.carandang@gmail.com</div></div>
+              <div class="c-arrow">↗</div>
+            </a>
+            <a href="https://www.linkedin.com/in/jerichocarandang/" class="c-link" target="_blank">
+              <div class="c-icon" style="font-size:.75rem;font-weight:700;">in</div>
+              <div><div class="c-label">LinkedIn</div><div class="c-val">https://www.linkedin.com/in/jerichocarandang/</div></div>
+              <div class="c-arrow">↗</div>
+            </a>
+            <!--<a href="https://github.com/" class="c-link" target="_blank">
+              <div class="c-icon">⌥</div>
+              <div><div class="c-label">GitHub</div><div class="c-val">github.com/jericho</div></div>
+              <div class="c-arrow">↗</div>-->
+            </a>
+          </div>
+        </div>
+        <div class="contact-form reveal d2">
+          <div class="cf-title">Send a Message</div>
+          <div class="f-field"><label class="f-label">Your Name</label><input type="text" class="f-input" placeholder="John Doe"/></div>
+          <div class="f-field"><label class="f-label">Email Address</label><input type="email" class="f-input" placeholder="john@company.com"/></div>
+          <div class="f-field"><label class="f-label">Role / Opportunity</label><input type="text" class="f-input" placeholder="e.g. Product Manager at Acme Co."/></div>
+          <div class="f-field"><label class="f-label">Message</label><textarea class="f-input" placeholder="Tell me about the role or project..."></textarea></div>
+          <button class="f-submit" id="sendBtn">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-name">Jericho Carandang</div>
+    <div class="foot-copy">© 2026 · Philippines · Built with intention</div>
+  </footer>
+
+  <script>
+    // Typing
+    const roles = ['Associate Software Engineer','Product Manager','Technical Product Manager','Product Owner','Mobile Developer'];
+    const el = document.getElementById('typed');
+    let ri=0,ci=0,del=false;
+    function type(){
+      const w=roles[ri];
+      el.textContent=del?w.slice(0,ci--):w.slice(0,ci++);
+      if(!del&&ci>w.length){del=true;setTimeout(type,1600);return;}
+      if(del&&ci<0){del=false;ri=(ri+1)%roles.length;ci=0;}
+      setTimeout(type,del?38:68);
+    }
+    setTimeout(type,900);
+
+    // Scroll reveal
+    const ro=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+    },{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+    // Skill bars
+    const bo=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting)
+          e.target.querySelectorAll('.s-fill').forEach(b=>{b.style.width=b.dataset.w;});
+      });
+    },{threshold:0.2});
+    document.querySelectorAll('.skill-group').forEach(g=>bo.observe(g));
+
+    // Form submit
+    document.getElementById('sendBtn').addEventListener('click',()=>{
+      const b=document.getElementById('sendBtn');
+      b.textContent='Message Sent ✓';
+      b.style.background='#4ade80';b.style.color='#0e0f11';
+      setTimeout(()=>{b.textContent='Send Message';b.style.background='';b.style.color='';},3000);
+    });
+  </script>
+</body>
+</html>
